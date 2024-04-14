@@ -4,13 +4,14 @@ import { OnModuleInit } from '@nestjs/common';
 import { Server, Socket } from 'socket.io';
 
 @WebSocketGateway()
-export class ChatGateway implements OnModuleInit {
+export class ChatGateway implements OnModuleInit  {
 
 
   @WebSocketServer()
-  server: Server
+  server: Server;
+  
 
-  constructor(private readonly chatService: ChatService) { }
+    constructor(private readonly chatService: ChatService) { }
 
   onModuleInit() {
 
