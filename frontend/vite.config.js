@@ -8,12 +8,12 @@ dotenv.config();
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  server: {
-    proxy: {
-      '/socket.io': {
-        target: process.env.VITE_BACKEND_URL ||  'https://chat-de-mensajes.onrender.com/',
-        ws: true
-      }
-    }
-  }
+  // server: {
+  //   proxy: {
+  //     '/socket.io': {
+  //       target: process.env.VITE_BACKEND_URL ||  'https://chat-de-mensajes.onrender.com/',
+  //       ws: true
+  //     }
+  //   }
+  // }
 })
