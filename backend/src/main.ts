@@ -14,7 +14,7 @@
   
     
     app.enableCors({
-      origin: 'https://chat-de-mensajes-client.onrender.com/'
+      origin: '*'
     });
 
     //2
