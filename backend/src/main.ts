@@ -1,7 +1,7 @@
   import { NestFactory } from '@nestjs/core';
   import { AppModule } from './app.module';
   import { ConfigService} from '@nestjs/config';
-
+import { Server } from 'socket.io';
 
   
   async function bootstrap() {
@@ -13,6 +13,8 @@
     const port = configService.get<number>('PORT', 3000);
   
     
+
+
     app.enableCors({
       origin: '*'
     });
@@ -36,6 +38,25 @@
     //     allowedHeaders: 'Content-Type,Authorization',
     //   },
     // }));
+
+    //WEBSOCKETS CORS
+    // Crear servidor HTTP
+  const server = app.getHttpServer();
+
+  // Configurar socket.io con opciones CORS
+  const io = new Server(server, {
+    cors: {
+      origin: 'https://chat-de-mensajes-client.onrender.com',
+      methods: ['GET', 'POST'],
+      credentials: true,
+    },
+  });
+  // Lógica de manejo de conexiones de socket.io
+  io.on('connection', (socket) => {
+    console.log('Cliente conectado a través de WebSocket:', socket.id);
+    // Aquí puedes implementar lógica para manejar eventos de socket.io
+  });
+
     await app.listen(port);
   }
   bootstrap();
