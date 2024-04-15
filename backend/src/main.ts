@@ -1,46 +1,45 @@
-  import { NestFactory } from '@nestjs/core';
-  import { AppModule } from './app.module';
-  import { ConfigService} from '@nestjs/config';
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { ConfigService } from '@nestjs/config';
 import { Server } from 'socket.io';
+import * as cors from 'cors';
 
-  
-  async function bootstrap() {
-  
-    const app = await NestFactory.create(AppModule, {cors: true});
+async function bootstrap() {
 
-    
-    const configService = app.get(ConfigService);
-    const port = configService.get<number>('PORT', 3000);
-  
-    
+  const app = await NestFactory.create(AppModule, { cors: true });
 
 
-    app.enableCors({
-      origin: '*'
-    });
+  const configService = app.get(ConfigService);
+  const port = configService.get<number>('PORT', 3000);
 
-    //2
-    // app.useWebSocketAdapter(new CustomSocketIoAdapter(app));
-    
-    //3
-    // app.enableCors({
-      //   origin: '*', // Allow requests from all origins,
-      //   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    //   allowedHeaders: 'Content-Type,Authorization',
-    // });
-    
-    //3B
-    // const httpAdapter = app.getHttpAdapter();
-    // app.useWebSocketAdapter(new IoAdapter(httpAdapter, {
-      //   cors: {
-        //     origin: '*', // Allow requests from all origins
-    //     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    //     allowedHeaders: 'Content-Type,Authorization',
-    //   },
-    // }));
 
-    //WEBSOCKETS CORS
-    // Crear servidor HTTP
+  app.use(cors({
+    origin: 'https://chat-de-mensajes-client.onrender.com' || '*', // o '*' para permitir cualquier origen
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  }));
+  //2
+  // app.useWebSocketAdapter(new CustomSocketIoAdapter(app));
+
+  //3
+  // app.enableCors({
+  //   origin: '*', // Allow requests from all origins,
+  //   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  //   allowedHeaders: 'Content-Type,Authorization',
+  // });
+
+  //3B
+  // const httpAdapter = app.getHttpAdapter();
+  // app.useWebSocketAdapter(new IoAdapter(httpAdapter, {
+  //   cors: {
+  //     origin: '*', // Allow requests from all origins
+  //     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  //     allowedHeaders: 'Content-Type,Authorization',
+  //   },
+  // }));
+
+  //WEBSOCKETS CORS
+  // Crear servidor HTTP
   const server = app.getHttpServer();
 
   // Configurar socket.io con opciones CORS
@@ -57,7 +56,7 @@ import { Server } from 'socket.io';
     // Aquí puedes implementar lógica para manejar eventos de socket.io
   });
 
-    await app.listen(port);
-  }
-  bootstrap();
+  await app.listen(port);
+}
+bootstrap();
 
