@@ -2,9 +2,9 @@ import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { ChatService } from './chat.service';
 import { OnModuleInit } from '@nestjs/common';
 import { Server, Socket } from 'socket.io';
-import { createServer, Server as HTTPServer } from 'http';
+import { CustomSocketIoAdapter } from 'src/customSocketAdapter/CustomSocketIoAdapter';
 
-@WebSocketGateway()
+@WebSocketGateway({ namespace: 'chat', adapter: new CustomSocketIoAdapter() })
 export class ChatGateway implements OnModuleInit  {
 
 
@@ -18,29 +18,6 @@ export class ChatGateway implements OnModuleInit  {
 
 
   onModuleInit() {
-
-
-    const httpServer: HTTPServer = createServer();
-
-    // Configurar CORS en el servidor HTTP para socket.io
-    const io = require('socket.io')(httpServer, {
-      cors: {
-        origin: 'https://chat-de-mensajes-client.onrender.com' || 'http://localhost:5173/',
-        methods: ['GET', 'POST'],
-        allowedHeaders: ['Content-Type', 'Authorization'],
-        credentials: true,
-      }
-    });
-
-    // Asignar el servidor socket.io al WebSocketGateway
-    this.server = io;
-
-
-
-    const port = process.env.PORT || 3000;
-    httpServer.listen(port, () => {
-      console.log(`Servidor HTTP y WebSocket iniciado en el puerto ${port}`);
-    });
 
 
     this.server.on('connection', (socket: Socket) => {
