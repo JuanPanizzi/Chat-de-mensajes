@@ -3,7 +3,7 @@ import { ChatService } from './chat.service';
 import { OnModuleInit } from '@nestjs/common';
 import { Server, Socket } from 'socket.io';
 
-@WebSocketGateway()
+@WebSocketGateway({ cors: '*:*' })
 export class ChatGateway implements OnModuleInit  {
 
 

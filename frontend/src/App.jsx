@@ -3,7 +3,7 @@ import io from 'socket.io-client'
 import './App.css'
 import { ChatBox } from './componentes/ChatBox2'
 
-const socket = io('https://chat-de-mensajes.onrender.com/')
+const socket = io('https://chat-de-mensajes.onrender.com')
 
 function App() {
 
