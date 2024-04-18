@@ -2,9 +2,8 @@ import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { ChatService } from './chat.service';
 import { OnModuleInit } from '@nestjs/common';
 import { Server, Socket } from 'socket.io';
-import { CustomSocketIoAdapter } from 'src/customSocketAdapter/CustomSocketIoAdapter';
 
-@WebSocketGateway({ namespace: 'chat', adapter: new CustomSocketIoAdapter() })
+@WebSocketGateway()
 export class ChatGateway implements OnModuleInit  {
 
 
